@@ -5,15 +5,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
+    <title>Project Calculator</title>
 
+    <link rel="stylesheet" href="style.css">
+    <script defer src="scriptCal.js"></script>
 </head>
 
 <body>
-    <div>
-        <div>
-            <button></button>
+    <div class="calculator">
+        <div class="btn-container">
+            <input class="screen" id="display" disabled placeholder="0"></input>
+            <button class="allclear-btn" id="ac-btn" value="AC">AC</button>
+            <button class="neg-btn" id="pn-btn">+/-</button>
+            <button class="percent-btn" id="percent-btn" value="%">%</button>
+            <button class="ari-btn" id="div-btn" value="/">/</button>
+
+            <button class="num-btn" id="seven-btn" value="7">7</button>
+            <button class="num-btn" id="eight-btn" value="8">8</button>
+            <button class="num-btn" id="nine-btn" value="9">9</button>
+            <button class="ari-btn" id="times-btn" value="* ">x</button>
+
+            <button class="num-btn" id="four-btn" value="4">4</button>
+            <button class="num-btn" id="five-btn" value="5">5</button>
+            <button class="num-btn" id="six-btn" value="6">6</button>
+            <button class="ari-btn" id="minus-btn" value="-">-</button>
+
+            <button class="num-btn" id="one-btn" value="1">1</button>
+            <button class="num-btn" id="two-btn" value="2">2</button>
+            <button class="num-btn" id="three-btn" value="3">3</button>
+            <button class="ari-btn" id="plus-btn" value="+">+</button>
+
+            <button class="num-btn" id="zero-btn" value="0">0</button>
+            <button class="dec-btn" id="dot-btn" value=".">.</button>
+            <button class="equals-btn" id="equals-btn" value="=">=</button>
         </div>
+
     </div>
 </body>
 
