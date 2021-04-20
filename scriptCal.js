@@ -42,20 +42,35 @@ const percentBtn = document.querySelector(".percent-btn");
 const negBtn = document.querySelector(".neg-btn");
 const screen = document.querySelector(".screen");
 
-let val1 = 0;
-let val2 = 0;
+let val, val1, val2;
 
 
 
 numBtn.forEach(numpad => numpad.addEventListener("click", function (e) {
     let x = e.target.value;
-    val1 = screenOut(x);
+    val = screenOut(x);
     console.log(val);
 }))
 
-ariBtn.forEach(arith => arith.addEventListener("click", function () {
-    console.log('heloow')
-    reset();
+let temp;
+ariBtn.forEach(arith => arith.addEventListener("click", function (e) {
+    if (val1 == null) {
+        val1 = screen.value;
+        console.log('value 1: ' + val1)
+    } else {
+        val2 = screen.value;
+        console.log('value 2: ' + val2)
+        switch (e.target.value) {
+            case '+':
+                temp = operate(add, val1, val2);
+        }
+    }
+
+    val1 = temp;
+    screen.textContent = temp;
+
+
+    // reset();
 
 
 }))
