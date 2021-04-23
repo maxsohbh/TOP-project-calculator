@@ -1,100 +1,154 @@
-//a function that takes parameters of another function and two numbers
 function operate(func, a, b) {
-
-    return func(Number(a), Number(b))
-}
-//arithemetics
-function add(a, b) {
-    return a + b;
-}
-
-function substract(a, b) {
-    return a - b;
-}
-
-function multiply(a, b) {
-    return a * b;
-}
-
-function divide(a, b) {
-    return a / b;
+  a = Number(a);
+  b = Number(b);
+  switch (func){
+      case '+':
+          return a+b;
+      case '-':
+          return a-b;
+      case '*':
+          return a*b;
+      case '/':
+          return a/b; 
+      default:
+          return null;
+  }
 }
 
-function percent(a) {
-    return a / 100;
-}
-
-
-console.log(operate(add, 1, 5));
-console.log(operate(substract, 1, 5));
-console.log(operate(multiply, 1, 5));
-console.log(operate(divide, 1, 5));
-console.log(operate(percent, 1));
-
-
-//listen to every number click and display onto the screen
 const numBtn = document.querySelectorAll('.num-btn');
-const ariBtn = document.querySelectorAll('.ari-btn');
+const opBtn = document.querySelectorAll('.ari-btn');
 const equalBtn = document.querySelector('.equals-btn');
-const clearBtn = document.querySelector('.allclear-btn');
+const allclearBtn = document.querySelector('.allclear-btn');
 const decimalBtn = document.querySelector(".dec-btn");
 const percentBtn = document.querySelector(".percent-btn");
-const negBtn = document.querySelector(".neg-btn");
+const plusminusBtn = document.querySelector(".neg-btn");
 const screen = document.querySelector(".screen");
 
-let val, val1, val2;
+let firstNumber ='';
+let secondNumber = '';
+let storednum = '';
 
+let firstOperator = null;
+let clearscreenlogic = false;
+let canpress = false;
+let equalpress = false;
+let result;
 
-
-numBtn.forEach(numpad => numpad.addEventListener("click", function (e) {
-    let x = e.target.value;
-    val = screenOut(x);
-    console.log(val);
+numBtn.forEach( numpad => numpad.addEventListener('click', function(e){
+  //if its the starting, need to clear screen
+  // display out the number to the screen
+  //enable operator buttons
+  if(clearscreenlogic) resetScreen();
+  displayOut(e.target.value)
+  // storeFirstNumber();
+  if(firstOperator && equalpress == false){
+    storednum = screen.value;
+  }else if(firstOperator && equalpress == true){
+    firstNumber = e.target.value;
+  }
+  canpress = true;
+  equalpress = false;
 }))
 
-let temp;
-ariBtn.forEach(arith => arith.addEventListener("click", function (e) {
-    if (val1 == null) {
-        val1 = screen.value;
-        console.log('value 1: ' + val1)
-    } else {
-        val2 = screen.value;
-        console.log('value 2: ' + val2)
-        switch (e.target.value) {
-            case '+':
-                temp = operate(add, val1, val2);
-        }
+opBtn.forEach(op => op.addEventListener('click', function(e){
+  //if operator buttons enabled, proceed
+  //check if its the first operator,store it, then wait for next number input
+  //if 2nd operator, calculate the previous, store the new operator
+  if(equalpress){
+    storeOperator(e.target.value)
+    // storednum = screen.value;
+    equalpress = false;
+    return
+  };
+  if(canpress){
+    if(firstOperator){
+      storeSecondNumber();
+      // result = calculate();
+      screen.value = Math.round( operate(firstOperator, firstNumber, storednum)*1000)/1000;
+
+      // screen.value = result;
     }
-
-    val1 = temp;
-    screen.textContent = temp;
-
-
-    // reset();
-
-
+    storeFirstNumber();
+    storeOperator(e.target.value);
+    clearscreenlogic= true
+    canpress = false;
+  }   
 }))
 
-decimalBtn.addEventListener("click", function (e) {
-    if (val.includes(".")) return;
-    val1 = screenOut(e.target.value);
+equalBtn.addEventListener('click', function(){
+  //check if first operator exist, yes then proceed to calculate
+  //what if theres press without 2nd number, it operate with itself first number
+  //screen value to equal the result
+  // storeFirstNumber(); //not the right way
+  equalpress = true;
+  storeSecondNumber(); // need a condition to run this only once accordingly.
+  if(firstOperator){
+    screen.value = Math.round( operate(firstOperator, firstNumber, storednum)*1000)/1000;
+
+    storeFirstNumber();
+    // firstNumber ='';
+    clearscreenlogic = true;
+  }
 })
 
-function screenOut(ans) {
-    let y = document.querySelector(".screen").value += ans;
-    return y;
+//function to store the first number
+function storeFirstNumber(){
+  firstNumber = screen.value;  
 }
 
-function reset() {
-    document.querySelector(".screen").value = '';
+function storeOperator(op){
+  firstOperator = op;
 }
 
-//to detect initial zero pressed. 
-function zero() {
-
+function storeSecondNumber(){
+  secondNumber = screen.value;
 }
 
-//store value when click the all the buttons except numbers
-function storeValue() {
-
+function calculate(){
+  let result = Math.round( operate(firstOperator, firstNumber, secondNumber)*1000)/1000;
+  return result;
 }
+
+decimalBtn.addEventListener('click', function(e){
+  //similar as numBtn,
+  //if its the starting, clear current screen
+  //if no value, add 0 infront, then the dot
+  //if have dot, no duplicates allowed
+  if(clearscreenlogic) resetScreen();
+  if(screen.value ==''){
+    displayOut("0" + e.target.value);
+  }
+  if(screen.value.includes('.'))return;
+  displayOut(e.target.value);
+})
+
+allclearBtn.addEventListener('click', function(){
+  //clear the screen, clear the stored 
+  resetScreen();
+  firstNumber ='';
+  secondNumber = '';
+  firstOperator = null;
+})
+
+percentBtn.addEventListener('click', function(){
+  //divide current screen value by 100
+  if(screen.value){
+    screen.value /=100;
+  }
+})
+
+plusminusBtn.addEventListener('click', function(){
+  if(screen.value){
+    screen.value*=-1;
+  }  
+})
+
+function resetScreen(){
+  screen.value = '';
+  clearscreenlogic = false;
+}
+
+function displayOut(a){
+  screen.value+=a;
+}
+
