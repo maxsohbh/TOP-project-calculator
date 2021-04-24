@@ -6,8 +6,6 @@
     
 }
 
-
-
 .calculator{
     margin: 0 auto;
     max-width: 300px;
@@ -20,7 +18,7 @@
     grid-area: 1/1/2/5;
     padding: 20px;
     font-size: 25px;
-     ;
+    height: 60px;
 }
 
 .btn-container{
@@ -36,6 +34,8 @@ button{
     background-color:rgb(224, 204, 167);
     border: 1px solid gray;
     padding: 10px;
+    height: 60px;
+    font-size: 25px;
 }
 
 button:hover{
