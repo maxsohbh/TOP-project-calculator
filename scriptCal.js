@@ -32,7 +32,6 @@ let firstOperator = null;
 let clearscreenlogic = false;
 let canpress = false;
 let equalpress = false;
-let result;
 let f = false;
 
 numBtn.forEach(numpad => numpad.addEventListener('click', function () {
@@ -60,14 +59,6 @@ function numInput(number) {
   }
   canpress = true;
   equalpress = false;
-}
-
-function keypress(event) {
-  if (event.key >= 0 && event.key <= 9) { numInput(event.key) }
-  if (event.key == '.') { decimalInput() }
-  if (event.key === '=' || event.key == "Enter" || event.key == 'Return') { equalInput() }
-  if (event.key === '-' || event.key === '+' || event.key === '*' || event.key === "/") { opInput(event.key) }
-
 }
 
 opBtn.forEach(op => op.addEventListener('click', function (e) {
@@ -136,8 +127,8 @@ function storeSecondNumber() {
 }
 
 function calculate() {
-  let result = Math.round(operate(firstOperator, firstNumber, secondNumber) * 1000) / 1000;
-  return result;
+  return Math.round(operate(firstOperator, firstNumber, secondNumber) * 1000) / 1000;
+
 }
 
 decimalBtn.addEventListener('click', function () {
@@ -187,5 +178,11 @@ function displayOut(a) {
   screen.value += a;
 }
 
-
 window.addEventListener('keydown', keypress);
+function keypress(event) {
+  if (event.key >= 0 && event.key <= 9) { numInput(event.key) }
+  if (event.key == '.') { decimalInput() }
+  if (event.key === '=' || event.key == "Enter" || event.key == 'Return') { equalInput() }
+  if (event.key === '-' || event.key === '+' || event.key === '*' || event.key === "/") { opInput(event.key) }
+
+}
